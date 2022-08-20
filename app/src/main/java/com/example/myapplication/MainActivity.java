@@ -38,21 +38,18 @@ public class MainActivity extends AppCompatActivity {
 
         txtContador = findViewById(R.id.txtContador);
         sContrador = findViewById(R.id.sTexto);
-        if(sContrador.isChecked()){
-            txtContador.setText("Contador :"+contador);
-        }else{
-            txtContador.setText(""+contador);
-        }
-
         contador=0;
+        contador(null);
+
+
     }
 
     public void sumar(View vista){
         contador++;
-        contador();
+        contador(vista);
     }
 
-    private void contador() {
+    public void contador(View vista) {
         if(sContrador.isChecked()){
             txtContador.setText("Contador :"+contador);
         }else{
@@ -62,12 +59,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void resetear(View vista){
         contador =0;
-        contador();
+        contador(vista);
     }
 
     public void restar(View vista){
         contador--;
-        contador();
+        contador(vista);
 
     }
 }
