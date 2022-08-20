@@ -17,12 +17,14 @@ import com.example.myapplication.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Switch;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private TextView txtContador;
+    private Switch sContrador;
     public static int contador;
 
     @Override
@@ -35,23 +37,37 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         txtContador = findViewById(R.id.txtContador);
+        sContrador = findViewById(R.id.sTexto);
+        if(sContrador.isChecked()){
+            txtContador.setText("Contador :"+contador);
+        }else{
+            txtContador.setText(""+contador);
+        }
 
         contador=0;
     }
 
     public void sumar(View vista){
         contador++;
-        txtContador.setText(""+contador);
+        contador();
+    }
+
+    private void contador() {
+        if(sContrador.isChecked()){
+            txtContador.setText("Contador :"+contador);
+        }else{
+            txtContador.setText(""+contador);
+        }
     }
 
     public void resetear(View vista){
         contador =0;
-        txtContador.setText(""+contador);
+        contador();
     }
 
     public void restar(View vista){
         contador--;
-        txtContador.setText(""+contador);
+        contador();
 
     }
 }
