@@ -17,6 +17,8 @@ import com.example.myapplication.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private TextView txtContador;
     private Switch sContrador;
+    private CheckBox cbPositivos;
+    private EditText txtDefault;
     public static int contador;
 
     @Override
@@ -38,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         txtContador = findViewById(R.id.txtContador);
         sContrador = findViewById(R.id.sTexto);
+        txtDefault = findViewById(R.id.txtDefault);
+        cbPositivos = findViewById(R.id.cbPositivos);
         contador=0;
         contador(null);
 
@@ -58,12 +64,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void resetear(View vista){
-        contador =0;
+        try{
+            contador = Integer.parseInt(txtDefault.getText().toString());
+        }catch (java.lang.NumberFormatException ex){
+            contador =0;
+        };
         contador(vista);
     }
 
     public void restar(View vista){
         contador--;
+        if(cbPositivos.isChecked() && contador < 0){
+            contador=0;
+        }
         contador(vista);
 
     }
