@@ -1,11 +1,13 @@
 package com.example.myapplication;
 
+import android.accessibilityservice.AccessibilityService;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -17,6 +19,8 @@ import com.example.myapplication.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -47,7 +51,24 @@ public class MainActivity extends AppCompatActivity {
         contador=0;
         contador(null);
 
+        EventoTeclado miEvento = new EventoTeclado();
+        txtDefault.setOnEditorActionListener(miEvento);
 
+    }
+
+    class EventoTeclado implements TextView.OnEditorActionListener {
+
+        @Override
+        public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+            if(i == EditorInfo.IME_ACTION_DONE){
+                if(!sContrador.isChecked()){
+                    resetear(null);
+                    return true;
+                }
+            }
+            txtDefault.setText("");
+            return false;
+        }
     }
 
     public void sumar(View vista){
@@ -69,7 +90,16 @@ public class MainActivity extends AppCompatActivity {
         }catch (java.lang.NumberFormatException ex){
             contador =0;
         };
+
+        if(cbPositivos.isChecked() && contador < 0){
+            contador = 0;
+        }
+
         contador(vista);
+        txtDefault.setText("");
+
+        InputMethodManager miTeclado = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        miTeclado.hideSoftInputFromWindow(txtDefault.getWindowToken(),0);
     }
 
     public void restar(View vista){
